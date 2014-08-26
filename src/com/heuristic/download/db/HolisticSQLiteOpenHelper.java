@@ -11,7 +11,7 @@ import android.util.Log;
 public class HolisticSQLiteOpenHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "heuristicdownload.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 3;
 
 	@SuppressWarnings("serial")
 	private List<DatabaseTable> tables = new ArrayList<DatabaseTable>(){{

@@ -37,6 +37,7 @@ public class DownloadTaskImpl implements DownloadTask {
 	private String url;
 	private long duration;
 	private String folder;
+	private String fileName = "";
 	
 	public String getAppId() {
 		return appId;
@@ -91,6 +92,14 @@ public class DownloadTaskImpl implements DownloadTask {
 	protected long fileCapacity = 0;
 	protected VoltageModel vdm;
 	protected int logDownloadedByte = 0;
+	
+	public long getFileCapacity(){
+		return fileCapacity;
+	}
+	
+	public String getFileName(){
+		return fileName;
+	}
 	
 	
 	protected ScheduledExecutorService scheduledExecutor;
@@ -205,7 +214,6 @@ public class DownloadTaskImpl implements DownloadTask {
 		
 		InputStream is = null;
 		FileOutputStream fos = null;
-		String fileName = null;
 		while (true){
 			try {
 				if (status != DownloadTask.TASK_DOWNLOADING){

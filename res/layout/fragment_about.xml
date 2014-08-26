@@ -4,11 +4,73 @@
     android:layout_height="match_parent"
     tools:context="com.battery.batterysaverservice.AboutFragment" >
 
-    <!-- TODO: Update blank fragment layout -->
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
+        <ImageView
+            android:id="@+id/about_icon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_launcher"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp" />
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/app_profile"/>
+        
+        <TextView android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="20dp"
+            android:text="Developer Team"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+ 			android:layout_marginLeft="35dp"
+ 			android:orientation="vertical"
+ 			android:gravity="left">
+ 			
+            <TextView android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="He Liang - heliang&amp;gmail.com"
+	            android:layout_marginTop="10dp" />
+            <TextView android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Pillar - mengguozhu&amp;gmail.com"
+	            android:layout_marginTop="10dp" />
+            <TextView android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Liu Yang - yangliu&amp;ntu.edu.sg"
+	            android:layout_marginTop="10dp" />
+            <TextView android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Sun Jun - sunjun&amp;gmail.com"
+	            android:layout_marginTop="10dp" />
+        </LinearLayout>
+        
+		<TextView android:id="@+id/about_update" 
+		    android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_marginTop="30dp"
+            android:text="Check for Updates"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:clickable="true"/>
+		
+        
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/copyright"
+            android:layout_marginTop="20dp" />
+    </LinearLayout>
+    
 </FrameLayout>

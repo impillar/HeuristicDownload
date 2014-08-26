@@ -1,5 +1,7 @@
 package com.heuristic.download.activities;
 
+import com.heuristic.download.services.BatterySaverService;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

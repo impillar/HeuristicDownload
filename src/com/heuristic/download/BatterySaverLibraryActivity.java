@@ -19,7 +19,7 @@ public class BatterySaverLibraryActivity extends FragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battery_service_library);
-
+        
         // ViewPager and its adapters use support library
         // fragments, so use getSupportFragmentManager.
         pagerAdapter = new BatterySaverPagerAdapter(getSupportFragmentManager());

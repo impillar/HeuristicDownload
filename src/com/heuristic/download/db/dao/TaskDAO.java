@@ -22,7 +22,8 @@ public class TaskDAO {
 			TaskTable.COLUMN_URL,
 			TaskTable.COLUMN_FILE,
 			TaskTable.COLUMN_APP,
-			TaskTable.COLUMN_SIZE
+			TaskTable.COLUMN_SIZE,
+			TaskTable.COLUMN_CREATEDON
 	};
 	
 	private static TaskDAO taskDAO = null;
@@ -38,8 +39,10 @@ public class TaskDAO {
 		return taskDAO;
 	}
 	
-	public void open() throws SQLException{
-		database = sqliteHelper.getWritableDatabase();
+	public TaskDAO open() throws SQLException{
+		if (database == null)
+			database = sqliteHelper.getWritableDatabase();
+		return taskDAO;
 	}
 	
 	public void close(){
@@ -53,6 +56,7 @@ public class TaskDAO {
 		values.put(TaskTable.COLUMN_FILE, task.getFile());
 		values.put(TaskTable.COLUMN_APP, task.getApp());
 		values.put(TaskTable.COLUMN_SIZE, task.getSize());
+		values.put(TaskTable.COLUMN_CREATEDON, task.getCreatedon());
 		
 		long insertId = database.insert(TaskTable.TABLE_TASKS, null, values);
 		Cursor cursor = database.query(TaskTable.TABLE_TASKS, allColumns, String.format("%s = '%s'", TaskTable.COLUMN_ID, insertId), null, null, null, null);
@@ -71,6 +75,7 @@ public class TaskDAO {
 		task.setApp(cursor.getString(cursor.getColumnIndex(TaskTable.COLUMN_APP)));
 		task.setFile(cursor.getString(cursor.getColumnIndex(TaskTable.COLUMN_FILE)));
 		task.setSize(cursor.getLong(cursor.getColumnIndex(TaskTable.COLUMN_SIZE)));
+		task.setCreateon(cursor.getLong(cursor.getColumnIndex(TaskTable.COLUMN_CREATEDON)));
 		return task;
 	}
 	

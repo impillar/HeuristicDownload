@@ -1,13 +1,9 @@
 package com.heuristic.download.util;
 
-import java.util.UUID;
-
 import android.content.Context;
 import android.content.Intent;
 
-import com.heuristic.download.activities.BatterySaverService;
-import com.heuristic.download.db.dao.Task;
-import com.heuristic.download.db.dao.TaskDAO;
+import com.heuristic.download.services.BatterySaverService;
 
 /**
  * The initiator of the application.
@@ -18,6 +14,12 @@ import com.heuristic.download.db.dao.TaskDAO;
 public class Initiator {
 
 	private Context mContext;
+	public static final boolean DEBUG = true;
+	
+	public static final String UPDATE_FILE = "hd_installer.apk";
+	public static final String APPLICATION_NAME = "HeuristicDownloader";
+	public static final String UPDATE_URL = "";
+	
 	private Initiator(Context context){
 		this.mContext = context;
 	}
