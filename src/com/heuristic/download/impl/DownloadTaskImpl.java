@@ -293,4 +293,10 @@ public class DownloadTaskImpl implements DownloadTask {
 		return fileSize / fileCapacity * 1.0;
 	}
 
+	@Override
+	public void setEnvironmentalDirectory(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

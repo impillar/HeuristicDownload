@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="libs/cltk.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/android-support-v13.jar"/>
+	<classpathentry kind="lib" path="libs/cltk.jar"/>
 	<classpathentry kind="lib" path="libs/hdlibjar.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>

@@ -1087,9 +1087,10 @@ containing a value of this type.
         public static final int abc_textfield_searchview_right_holo_dark=0x7f020055;
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
         public static final int ic_action_refresh=0x7f020057;
-        public static final int ic_launcher=0x7f020058;
-        public static final int ic_notification=0x7f020059;
-        public static final int ic_pulltorefresh_arrow=0x7f02005a;
+        public static final int ic_delete=0x7f020058;
+        public static final int ic_launcher=0x7f020059;
+        public static final int ic_notification=0x7f02005a;
+        public static final int ic_pulltorefresh_arrow=0x7f02005b;
     }
     public static final class id {
         public static final int about_icon=0x7f05004a;
@@ -1102,10 +1103,11 @@ containing a value of this type.
         public static final int action_bar_subtitle=0x7f050023;
         public static final int action_bar_title=0x7f050022;
         public static final int action_context_bar=0x7f05001d;
+        public static final int action_delete=0x7f050059;
         public static final int action_menu_divider=0x7f050016;
         public static final int action_menu_presenter=0x7f050017;
         public static final int action_mode_close_button=0x7f050024;
-        public static final int action_refresh=0x7f050059;
+        public static final int action_refresh=0x7f05005a;
         public static final int action_settings=0x7f050058;
         public static final int activity_chooser_view_content=0x7f050025;
         public static final int always=0x7f05000b;
@@ -1313,6 +1315,7 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abc_shareactionprovider_share_with_application=0x7f0a000b;
+        public static final int action_delete=0x7f0a0031;
         public static final int action_refresh=0x7f0a0030;
         public static final int action_settings=0x7f0a0011;
         public static final int app_name=0x7f0a000d;
@@ -1326,10 +1329,10 @@ containing a value of this type.
         public static final int local_service_label=0x7f0a0029;
         public static final int notification_for_completed=0x7f0a0028;
         public static final int pause_play=0x7f0a0017;
-        public static final int pull_to_refresh_pull_label=0x7f0a0031;
-        public static final int pull_to_refresh_refreshing_label=0x7f0a0033;
-        public static final int pull_to_refresh_release_label=0x7f0a0032;
-        public static final int pull_to_refresh_tap_label=0x7f0a0034;
+        public static final int pull_to_refresh_pull_label=0x7f0a0032;
+        public static final int pull_to_refresh_refreshing_label=0x7f0a0034;
+        public static final int pull_to_refresh_release_label=0x7f0a0033;
+        public static final int pull_to_refresh_tap_label=0x7f0a0035;
         public static final int reserved=0x7f0a0010;
         public static final int rest_time=0x7f0a001b;
         public static final int restart_play=0x7f0a0018;

@@ -5,7 +5,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
@@ -177,6 +180,35 @@ public class TaskListFragment extends ListFragment implements
 	    case R.id.action_refresh:
 	    	getLoaderManager().restartLoader(0, null, this);
 	    	Toast.makeText(mContext, "Refresh Successfully", Toast.LENGTH_SHORT).show();
+	    	return true;
+	    case R.id.action_delete:
+	    	
+	    	AlertDialog deleteAlert = new AlertDialog.Builder(TaskListFragment.this.getActivity())
+	    					.setTitle("Alert Dialog")
+	    					.setMessage("Delete all download tasks?")
+	    					.setCancelable(true)
+	    					.setPositiveButton("OK", new OnClickListener(){
+
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									TaskDAO.v(mContext).open().deleteAll();
+									dialog.cancel();
+									TaskListFragment.this.getLoaderManager().restartLoader(0, null, TaskListFragment.this);
+									Toast.makeText(mContext, "Delete Successfully", Toast.LENGTH_SHORT).show();
+								}
+	    						
+	    					})
+	    					.setNegativeButton("Cancel", new OnClickListener(){
+	    						
+	    						@Override
+	    						public void onClick(DialogInterface dialog, int which){
+	    							dialog.cancel();
+	    						}
+	    					}).create();
+	    	
+	    	deleteAlert.show();
+	    	
 	    	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);

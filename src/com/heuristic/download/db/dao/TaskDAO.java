@@ -49,6 +49,25 @@ public class TaskDAO {
 		sqliteHelper.close();
 	}
 	
+	public int updateTask(Task task){
+		ContentValues values = new ContentValues();
+		values.put(TaskTable.COLUMN_UUID, task.getUuid());
+		values.put(TaskTable.COLUMN_URL, task.getUrl());
+		values.put(TaskTable.COLUMN_FILE, task.getFile());
+		values.put(TaskTable.COLUMN_APP, task.getApp());
+		values.put(TaskTable.COLUMN_SIZE, task.getSize());
+		values.put(TaskTable.COLUMN_CREATEDON, task.getCreatedon());
+		
+		return database.update(TaskTable.TABLE_TASKS, values, TaskTable.COLUMN_ID+"="+task.getId(), null);
+		
+	}
+	
+	public int updateTaskSize(long size, int id){
+		ContentValues values = new ContentValues();
+		values.put(TaskTable.COLUMN_SIZE, size);
+		return database.update(TaskTable.TABLE_TASKS, values, TaskTable.COLUMN_ID+"="+id, null);
+	}
+	
 	public Task createTask(Task task){
 		ContentValues values = new ContentValues();
 		values.put(TaskTable.COLUMN_UUID, task.getUuid());
@@ -83,6 +102,10 @@ public class TaskDAO {
 		database.delete(TaskTable.TABLE_TASKS, String.format("%s = '%d'", TaskTable.COLUMN_ID, id), null);
 	}
 	
+	public void deleteAll(){
+		database.delete(TaskTable.TABLE_TASKS, null, null);
+	}
+	
 	public List<Task> getAllTasks(){
 		List<Task> tasks = new ArrayList<Task>();
 		Cursor cursor = database.query(TaskTable.TABLE_TASKS, allColumns, null, null, null, null, null, null);
@@ -94,5 +117,23 @@ public class TaskDAO {
 		}
 		cursor.close();
 		return tasks;
+	}
+	
+	public Task getTask(int id){
+		Cursor cursor = database.query(TaskTable.TABLE_TASKS, allColumns, "id = ?", new String[]{id+""}, null, null, null, null);
+		cursor.moveToFirst();
+		if (!cursor.isAfterLast()){
+			return cursorToTask(cursor);
+		}
+		return null;
+	}
+	
+	public long getFileSize(int id){
+		Cursor cursor = database.query(TaskTable.TABLE_TASKS, new String[]{TaskTable.COLUMN_SIZE}, "id = ?", new String[]{id+""}, null, null, null, null);
+		cursor.moveToFirst();
+		if (!cursor.isAfterLast()){
+			return cursor.getLong(cursor.getColumnIndex(TaskTable.COLUMN_SIZE));
+		}
+		return 0;
 	}
 }

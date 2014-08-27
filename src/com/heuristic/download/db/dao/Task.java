@@ -103,4 +103,16 @@ public class Task implements Parcelable{
 		return sb.toString();
 	}
 	
+	/**
+	 * Return the download progress
+	 * @param downloaded
+	 * @param total
+	 * @return
+	 */
+	public static double calProgress(long downloaded, long total){
+		if (total <= 0)	return 0;
+		if (downloaded > total) return 1;
+		return downloaded * 1.0 / total;
+	}
+	
 }

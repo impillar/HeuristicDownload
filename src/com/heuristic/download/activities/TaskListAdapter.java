@@ -15,10 +15,12 @@ import android.widget.TextView;
 
 import com.heuristic.download.R;
 import com.heuristic.download.activities.ds.TaskEntry;
+import com.heuristic.download.db.dao.Task;
 import com.heuristic.download.util.Initiator;
 
 import edu.ntu.cltk.android.pm.PackageMgr;
 import edu.ntu.cltk.date.DateFormater;
+import edu.ntu.cltk.file.FileUtil;
 
 public class TaskListAdapter extends ArrayAdapter<TaskEntry> {
 
@@ -59,11 +61,13 @@ public class TaskListAdapter extends ArrayAdapter<TaskEntry> {
 		if (position < tasks.size()){
 			viewHolder.iconImageView.setImageDrawable(PackageMgr.getDrawableForApp(mContext, tasks.get(position).getAppInfo()));
 			viewHolder.appTextView.setText(tasks.get(position).getTaskInfo().getApp());
-			viewHolder.progressTextView.setText("Downloading 12%");
+			viewHolder.progressTextView.setText(String.format("Downloading %d%%", 
+					Math.round(
+							100 * Task.calProgress(
+									FileUtil.getFileSize(tasks.get(position).getTaskInfo().getFile()), 
+									tasks.get(position).getTaskInfo().getSize()))));
 			viewHolder.createdonTextView.setText(DateFormater.formatString(tasks.get(position).getTaskInfo().getCreatedon(), "MM/dd HH:mm"));
-			if (Initiator.DEBUG){
-				Log.i("TaskListAdapter", DateFormater.formatString(tasks.get(position).getTaskInfo().getCreatedon(), "MM/dd HH:mm"));
-			}
+			
 		}
 				
 		return rootView;

@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.battery.batterysaverservice.AboutFragment" >
-
+    tools:context="com.battery.batterysaverservice.AboutFragment"
+    android:scrollbars="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,19 +39,19 @@
  			
             <TextView android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:text="He Liang - heliang&amp;gmail.com"
+	            android:text="He Liang - heliang@gmail.com"
 	            android:layout_marginTop="10dp" />
             <TextView android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:text="Pillar - mengguozhu&amp;gmail.com"
+	            android:text="Pillar - mengguozhu@gmail.com"
 	            android:layout_marginTop="10dp" />
             <TextView android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:text="Liu Yang - yangliu&amp;ntu.edu.sg"
+	            android:text="Liu Yang - yangliu@ntu.edu.sg"
 	            android:layout_marginTop="10dp" />
             <TextView android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:text="Sun Jun - sunjun&amp;gmail.com"
+	            android:text="Sun Jun - sunjun@gmail.com"
 	            android:layout_marginTop="10dp" />
         </LinearLayout>
         

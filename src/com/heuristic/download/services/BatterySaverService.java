@@ -2,6 +2,8 @@ package com.heuristic.download.services;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.UUID;
 
 import android.app.NotificationManager;
@@ -59,12 +61,18 @@ public class BatterySaverService extends Service {
 		mNotifyMgr.notify(mNotificationId, mBuilder.build());
 	}
 	
-	private CharSequence downloadTask(String appId, String url, long duration, String folder) 
+	private CharSequence downloadTask(String appId, String url, long duration, String fileName) 
 	{
-		if (!folder.endsWith("/") && !folder.endsWith("\\")){
-			folder += "/";
+		//Check if the current task is already contained
+		for (Entry<String, DownloadTask> item : taskMap.entrySet()){
+			
+			DownloadTaskImpl sDTI = (DownloadTaskImpl)item.getValue();
+			if (sDTI.getUrl().equals(url) && sDTI.getFileName().equals(fileName)){
+				return item.getKey();
+			}
 		}
-		DownloadTask dt = new DownloadTaskImpl(appId, url, duration, folder);
+		
+		DownloadTask dt = new DownloadTaskImpl(appId, url, duration, fileName);
 		dt.startDownload();			
 		
 		UUID uuid = UUID.randomUUID();
@@ -72,18 +80,50 @@ public class BatterySaverService extends Service {
 		
 		Task task = new Task();
 		task.setApp(appId);
-		task.setFile(folder+((DownloadTaskImpl)dt).getFileName());
-		task.setSize(((DownloadTaskImpl)dt).getFileCapacity());
+		task.setFile(fileName);
+		task.setSize(-1);
 		task.setCreateon(System.currentTimeMillis());
 		task.setUrl(url);
 		task.setUuid(uuid.toString());
-		TaskDAO.v(BatterySaverService.this).open().createTask(task);
+		final int taskId = TaskDAO.v(BatterySaverService.this).open().createTask(task).getId();
+		task.setId(taskId);
 		
 		if (Initiator.DEBUG){
 			Log.w("BatterySaverService", task.toString());
 		}
 		
 		receivedDownloadRequest(task);
+		
+		final DownloadTaskImpl dti = (DownloadTaskImpl)dt;
+		//We continue to query the lenght of downloaded file
+		Thread thr = new Thread(new Runnable(){
+
+			int count = 10;
+			
+			@Override
+			public void run() {
+				do{
+					if (Initiator.DEBUG){
+						Log.w("BatterySaverService", String.format("File length = %d", dti.getFileCapacity()));
+					}
+					if (dti.getFileCapacity() <= 0){
+						try {
+							count--;
+							Thread.sleep(5 * 1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							//e.printStackTrace();
+						}
+					}else{
+						TaskDAO.v(BatterySaverService.this).open().updateTaskSize(dti.getFileCapacity(), taskId);
+						break;
+					}
+				}while (count>0);
+			}
+			
+		});
+		thr.start();
+		
 		return uuid.toString();
 	}
 	

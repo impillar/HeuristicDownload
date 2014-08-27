@@ -1,7 +1,9 @@
 package com.heuristic.download.activities;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,9 +15,13 @@ import android.widget.Toast;
 
 import com.heuristic.download.R;
 import com.heuristic.download.activities.ds.TaskEntry;
+import com.heuristic.download.db.dao.Task;
+import com.heuristic.download.db.dao.TaskDAO;
+import com.heuristic.download.util.Initiator;
 
 import edu.ntu.cltk.android.pm.PackageMgr;
 import edu.ntu.cltk.date.DateFormater;
+import edu.ntu.cltk.file.FileUtil;
 
 public class TaskDetail extends ActionBarActivity {
 
@@ -46,6 +52,30 @@ public class TaskDetail extends ActionBarActivity {
 		
 		android.support.v7.app.ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
+		
+		//Load the latest progress
+		AsyncTask<Integer, Double, Integer> at = new AsyncTask<Integer, Double, Integer>(){
+
+			@Override
+			protected Integer doInBackground(Integer... params) {
+				for (int param : params){
+					Task task = TaskDAO.v(TaskDetail.this).open().getTask(te.getTaskInfo().getId());
+					te.setTaskInfo(task);
+					return (int)Math.round(100 * Task.calProgress(FileUtil.getFileSize(te.getTaskInfo().getFile()), task.getSize()));
+				}
+				return 0;
+			}
+			
+			@Override
+			protected void onPostExecute(Integer result) {
+				if (progressTextView != null){
+					progressTextView.setText(String.format("Downloading %d%%", result));
+				}
+			}
+			
+		};
+		
+		at.execute(te.getTaskInfo().getId());
 	}
 
 	@Override
@@ -81,7 +111,15 @@ public class TaskDetail extends ActionBarActivity {
 		
 		iconImageView.setImageDrawable(PackageMgr.getDrawableForApp(this, te.getAppInfo()));
 		appTextView.setText(te.getAppInfo().packageName);
-		progressTextView.setText("Download: 10%");
+		progressTextView.setText(String.format("Downloading %d%%", 
+				Math.round(
+						100 * Task.calProgress(
+								FileUtil.getFileSize(te.getTaskInfo().getFile()), 
+								te.getTaskInfo().getSize()))));
+		
+		if (Initiator.DEBUG){
+			Log.w("TaskDetail", String.format("FileSize:%d, Total:%d",  FileUtil.getFileSize(te.getTaskInfo().getFile()), te.getTaskInfo().getSize()));
+		}
 		
 		urlTextView.setText(te.getTaskInfo().getUrl());
 		folderTextView.setText(te.getTaskInfo().getFile());
