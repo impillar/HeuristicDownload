@@ -18,7 +18,7 @@ public class Initiator {
 	
 	public static final String UPDATE_FILE = "hd_installer.apk";
 	public static final String APPLICATION_NAME = "HeuristicDownloader";
-	public static final String UPDATE_URL = "https://github.com/impillar/HeuristicDownload/blob/master/products/HeuristicDownload.apk?raw=true";
+	public static final String UPDATE_URL = "https://github.com/impillar/HeuristicDownload/blob/master/products/HeuristicDownloader.apk?raw=true";
 	
 	private Initiator(Context context){
 		this.mContext = context;
