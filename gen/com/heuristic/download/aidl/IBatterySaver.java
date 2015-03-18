@@ -64,6 +64,28 @@ reply.writeInt(0);
 }
 return true;
 }
+case TRANSACTION_upload:
+{
+data.enforceInterface(DESCRIPTOR);
+java.lang.String _arg0;
+_arg0 = data.readString();
+java.lang.String _arg1;
+_arg1 = data.readString();
+long _arg2;
+_arg2 = data.readLong();
+java.lang.String _arg3;
+_arg3 = data.readString();
+java.lang.CharSequence _result = this.upload(_arg0, _arg1, _arg2, _arg3);
+reply.writeNoException();
+if ((_result!=null)) {
+reply.writeInt(1);
+android.text.TextUtils.writeToParcel(_result, reply, android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE);
+}
+else {
+reply.writeInt(0);
+}
+return true;
+}
 case TRANSACTION_getProgress:
 {
 data.enforceInterface(DESCRIPTOR);
@@ -133,6 +155,40 @@ _data.recycle();
 return _result;
 }
 /**
+	 * To upload a file to a specific url.
+	 * @param appId
+	 * @param url
+	 * @param duration
+	 * @param file
+	 * @return UUID, a unique identifier for the upload request.
+	 */
+@Override public java.lang.CharSequence upload(java.lang.String appId, java.lang.String url, long duration, java.lang.String file) throws android.os.RemoteException
+{
+android.os.Parcel _data = android.os.Parcel.obtain();
+android.os.Parcel _reply = android.os.Parcel.obtain();
+java.lang.CharSequence _result;
+try {
+_data.writeInterfaceToken(DESCRIPTOR);
+_data.writeString(appId);
+_data.writeString(url);
+_data.writeLong(duration);
+_data.writeString(file);
+mRemote.transact(Stub.TRANSACTION_upload, _data, _reply, 0);
+_reply.readException();
+if ((0!=_reply.readInt())) {
+_result = android.text.TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(_reply);
+}
+else {
+_result = null;
+}
+}
+finally {
+_reply.recycle();
+_data.recycle();
+}
+return _result;
+}
+/**
 	 * Users can query the current progress of requested download, by specifying the UUID of the request
 	 * @param uuid
 	 * @return
@@ -163,7 +219,8 @@ return _result;
 }
 }
 static final int TRANSACTION_download = (android.os.IBinder.FIRST_CALL_TRANSACTION + 0);
-static final int TRANSACTION_getProgress = (android.os.IBinder.FIRST_CALL_TRANSACTION + 1);
+static final int TRANSACTION_upload = (android.os.IBinder.FIRST_CALL_TRANSACTION + 1);
+static final int TRANSACTION_getProgress = (android.os.IBinder.FIRST_CALL_TRANSACTION + 2);
 }
 /**
 	 * To download a file in a specific url, and store it in a specific folder
@@ -175,6 +232,15 @@ static final int TRANSACTION_getProgress = (android.os.IBinder.FIRST_CALL_TRANSA
 	 * @return UUID, a unique identifier for the download request.
 	 */
 public java.lang.CharSequence download(java.lang.String appId, java.lang.String url, long duration, java.lang.String folder) throws android.os.RemoteException;
+/**
+	 * To upload a file to a specific url.
+	 * @param appId
+	 * @param url
+	 * @param duration
+	 * @param file
+	 * @return UUID, a unique identifier for the upload request.
+	 */
+public java.lang.CharSequence upload(java.lang.String appId, java.lang.String url, long duration, java.lang.String file) throws android.os.RemoteException;
 /**
 	 * Users can query the current progress of requested download, by specifying the UUID of the request
 	 * @param uuid

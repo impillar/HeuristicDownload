@@ -3,7 +3,6 @@ package com.heuristic.download.services;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.UUID;
 
 import android.app.NotificationManager;
@@ -17,6 +16,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.battery.batterysaver.DownloadTaskImpl;
+import com.battery.batterysaver.UploadTaskImpl;
 import com.battery.batterysaver.interfaces.DownloadTask;
 import com.heuristic.download.R;
 import com.heuristic.download.activities.TaskDetail;
@@ -27,6 +27,7 @@ import com.heuristic.download.db.dao.TaskDAO;
 import com.heuristic.download.util.Initiator;
 
 import edu.ntu.cltk.android.pm.PackageMgr;
+import edu.ntu.cltk.file.FileUtil;
 
 public class BatterySaverService extends Service {
 
@@ -79,6 +80,7 @@ public class BatterySaverService extends Service {
 		taskMap.put(uuid.toString(), dt);
 		
 		Task task = new Task();
+		task.setType(Task.DOWNLOAD);
 		task.setApp(appId);
 		task.setFile(fileName);
 		task.setSize(-1);
@@ -127,6 +129,44 @@ public class BatterySaverService extends Service {
 		return uuid.toString();
 	}
 	
+	private CharSequence uploadTask(String appId, String url, long duration, String file){
+		//Check if the current task is already contained
+		for (Entry<String, DownloadTask> item : taskMap.entrySet()){
+					
+			UploadTaskImpl sDTI = (UploadTaskImpl)item.getValue();
+			if (sDTI.getUrl().equals(url) && sDTI.getFileName().equals(file)){
+				return item.getKey();
+			}
+		}
+				
+		DownloadTask dt = new UploadTaskImpl(appId, url, duration, file);
+		dt.startDownload();			
+				
+		UUID uuid = UUID.randomUUID();
+		taskMap.put(uuid.toString(), dt);
+				
+		Task task = new Task();
+		task.setType(Task.UPLOAD);
+		task.setApp(appId);
+		task.setFile(file);
+		task.setSize(FileUtil.getFileSize(file));
+		task.setCreateon(System.currentTimeMillis());
+		task.setUrl(url);
+		task.setUuid(uuid.toString());
+		final int taskId = TaskDAO.v(BatterySaverService.this).open().createTask(task).getId();
+		task.setId(taskId);
+				
+		if (Initiator.DEBUG){
+			Log.w("BatterySaverService", task.toString());
+		}
+				
+		receivedDownloadRequest(task);
+			
+		final UploadTaskImpl dti = (UploadTaskImpl)dt;
+		//We continue to query the lenght of downloaded file
+		return uuid.toString();
+	}
+	
 	private final IBatterySaver.Stub mBinder = new IBatterySaver.Stub() {
 
 		@Override
@@ -143,6 +183,13 @@ public class BatterySaverService extends Service {
 				return dt.getProgress();
 			}
 			return 0;
+		}
+
+		@Override
+		public CharSequence upload(String appId, String url, long duration,
+				String file) throws RemoteException {
+			// TODO Auto-generated method stub
+			return uploadTask(appId, url, duration, file);
 		}
 		
     };

@@ -15,8 +15,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/abc_ab_bottom_solid_dark_holo" />
+        android:layout_marginTop="10dp" />
+        <!-- android:src="@drawable/abc_ab_bottom_solid_dark_holo"  -->
 
     <LinearLayout
         android:id="@+id/taskdetail_name"

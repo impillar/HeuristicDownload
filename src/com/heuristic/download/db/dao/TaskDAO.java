@@ -18,6 +18,7 @@ public class TaskDAO {
 	private HolisticSQLiteOpenHelper sqliteHelper;
 	private String[] allColumns = {
 			TaskTable.COLUMN_ID,
+			TaskTable.COLUMN_TYPE,
 			TaskTable.COLUMN_UUID,
 			TaskTable.COLUMN_URL,
 			TaskTable.COLUMN_FILE,
@@ -51,6 +52,7 @@ public class TaskDAO {
 	
 	public int updateTask(Task task){
 		ContentValues values = new ContentValues();
+		values.put(TaskTable.COLUMN_TYPE, task.getType());
 		values.put(TaskTable.COLUMN_UUID, task.getUuid());
 		values.put(TaskTable.COLUMN_URL, task.getUrl());
 		values.put(TaskTable.COLUMN_FILE, task.getFile());
@@ -70,6 +72,7 @@ public class TaskDAO {
 	
 	public Task createTask(Task task){
 		ContentValues values = new ContentValues();
+		values.put(TaskTable.COLUMN_TYPE, task.getType());
 		values.put(TaskTable.COLUMN_UUID, task.getUuid());
 		values.put(TaskTable.COLUMN_URL, task.getUrl());
 		values.put(TaskTable.COLUMN_FILE, task.getFile());
@@ -89,6 +92,7 @@ public class TaskDAO {
 	private Task cursorToTask(Cursor cursor){
 		Task task = new Task();
 		task.setId(cursor.getInt(cursor.getColumnIndex(TaskTable.COLUMN_ID)));
+		task.setType(cursor.getInt(cursor.getColumnIndex(TaskTable.COLUMN_TYPE)));
 		task.setUuid(cursor.getString(cursor.getColumnIndex(TaskTable.COLUMN_UUID)));
 		task.setUrl(cursor.getString(cursor.getColumnIndex(TaskTable.COLUMN_URL)));
 		task.setApp(cursor.getString(cursor.getColumnIndex(TaskTable.COLUMN_APP)));

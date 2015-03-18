@@ -5,7 +5,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Task implements Parcelable{
+	
+	public static int DOWNLOAD = 0;
+	public static int UPLOAD = 1;
+	
 	private int id;
+	private int type;
 	private String uuid;
 	private String url;
 	private String file;
@@ -13,13 +18,13 @@ public class Task implements Parcelable{
 	private long size;
 	private long createdon;
 	
-	
 	public Task(){
 		
 	}
 	
 	public Task(Parcel in){
 		this.id = in.readInt();
+		this.type = in.readInt();
 		this.uuid = in.readString();
 		this.url = in.readString();
 		this.file = in.readString();
@@ -33,6 +38,12 @@ public class Task implements Parcelable{
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public int getType(){
+		return type;
+	}
+	public void setType(int type){
+		this.type = type;
 	}
 	public String getUuid() {
 		return uuid;
@@ -88,6 +99,7 @@ public class Task implements Parcelable{
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(id);
+		dest.writeInt(type);
 		dest.writeString(uuid);
 		dest.writeString(url);
 		dest.writeString(file);
@@ -99,7 +111,7 @@ public class Task implements Parcelable{
 	@Override
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
-		sb.append(String.format("{id:%d, uuid:%s, url:%s, file:%s, app:%s, size:%d, createdon:%s}",id, uuid, url, file, app, size, DateFormater.formatString(createdon, "MM/dd HH:mm")));
+		sb.append(String.format("{id:%d, type:%d, uuid:%s, url:%s, file:%s, app:%s, size:%d, createdon:%s}",id, type, uuid, url, file, app, size, DateFormater.formatString(createdon, "MM/dd HH:mm")));
 		return sb.toString();
 	}
 	

@@ -6,6 +6,7 @@ public class TaskTable implements DatabaseTable {
 
 	public static final String TABLE_TASKS = "task";
 	public static final String COLUMN_ID = "id";
+	public static final String COLUMN_TYPE = "type";
 	public static final String COLUMN_UUID = "uuid";
 	public static final String COLUMN_URL = "url";
 	public static final String COLUMN_FILE = "file";
@@ -15,8 +16,8 @@ public class TaskTable implements DatabaseTable {
 	
 	// Database creation sql statement
 	public static final String DATABASE_CREATE = String
-				.format("create table %s(%s integer primary key autoincrement, %s text not null, %s text not null, %s text not null, %s text not null, %s long, %s long)",
-						TABLE_TASKS, COLUMN_ID, COLUMN_UUID, COLUMN_URL,
+				.format("create table %s(%s integer primary key autoincrement, %s integer, %s text not null, %s text not null, %s text not null, %s text not null, %s long, %s long)",
+						TABLE_TASKS, COLUMN_ID, COLUMN_TYPE, COLUMN_UUID, COLUMN_URL,
 						COLUMN_FILE, COLUMN_APP, COLUMN_SIZE, COLUMN_CREATEDON);
 	@Override
 	public void onCreate(SQLiteDatabase database) {

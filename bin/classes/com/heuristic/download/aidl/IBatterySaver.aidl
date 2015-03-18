@@ -14,6 +14,16 @@ interface IBatterySaver {
 	CharSequence download(String appId, String url, long duration, String folder);
 	
 	/**
+	 * To upload a file to a specific url.
+	 * @param appId
+	 * @param url
+	 * @param duration
+	 * @param file
+	 * @return UUID, a unique identifier for the upload request.
+	 */
+	CharSequence upload(String appId, String url, long duration, String file);
+	
+	/**
 	 * Users can query the current progress of requested download, by specifying the UUID of the request
 	 * @param uuid
 	 * @return
